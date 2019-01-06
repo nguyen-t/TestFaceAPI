@@ -1,6 +1,5 @@
 const findFaces = async (video, canvas) => {
   let faces = await faceapi.detectAllFaces(video);
-  console.log(faces.length);
   faceapi.drawDetection(canvas, faces, {
     "withScore": true
   });
@@ -25,10 +24,10 @@ window.onload = async () => {
   video.onloadedmetadata = () => {
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
-    setInterval(() => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-    findFaces(video, canvas);
-  }, 10);
+    setInterval(async () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      await findFaces(video, canvas);
+    }, 10);
   };
 };
